@@ -4,7 +4,9 @@ Rust implementation of [zenhan](https://github.com/iuchim/zenhan). Switch the mo
 
 ## Install
 
-Install the binary from release page.
+Download the binary from [releases](https://github.com/demerara151/zenhan-rs/releases) page.
+
+Then save it anywhere you want and set the path to the executable.
 
 ## Usage
 
@@ -14,10 +16,10 @@ Switch the mode to Alphanumerical (hankaku-eisu).
 
 ```powershell
 # run it without options
-zenhan-rs.exe
+zenhan-rs
 
 # or more explicitly
-zenhan-rs.exe 0
+zenhan-rs 0
 ```
 
 - Turn IME on
@@ -25,7 +27,7 @@ zenhan-rs.exe 0
 Switch the mode to Japanese (hiragana).
 
 ```powershell
-zenhan-rs.exe 1
+zenhan-rs 1
 ```
 
 ## Settings
@@ -60,7 +62,7 @@ Configure your `helix/config.toml` as follows:
 shell = ["nu", "-c"]  # or ["pwsh", "-nop", "-c"] but too slow to switch the mode
 
 [keys.insert]
-"esc" = ["normal_mode", ":run-shell-command zenhan-rs.exe 0"]
+"esc" = ["normal_mode", ":run-shell-command zenhan-rs 0"]
 ```
 
 > ⚠️ Caution: Do not forget to add "normal_mode" as first argument. Otherwise, you will never get back to NORMAL mode.
@@ -74,7 +76,7 @@ If you are set `$PSReadLineOptions.EditMode` to `Vi`, write the following script
 function OnViModeChange {
   if ($args[0] -eq 'Command') {
     # Turn off the IME when you leave the INSERT mode.
-    zenhan-rs.exe 0
+    zenhan-rs 0
     # Set the cursor to a blinking block.
     Write-Host -NoNewline "`e[1 q"
   }
