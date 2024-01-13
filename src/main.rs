@@ -8,23 +8,23 @@ use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageA,
 fn main() -> Result<()> {
     unsafe {
         let hwnd = GetForegroundWindow();
-        let ime_wnd = ImmGetDefaultIMEWnd(hwnd);
+        let ime = ImmGetDefaultIMEWnd(hwnd);
 
         let args: Vec<String> = std::env::args().collect();
         if args.len() < 2 {
             SendMessageA(
-                ime_wnd,
+                ime,
                 WM_IME_CONTROL,
                 WPARAM(IMN_OPENSTATUSWINDOW.try_into()?),
                 LPARAM(0),
             );
         } else {
-            let arg = args[1].parse().unwrap_or_default();
+            let mode = args[1].parse().unwrap_or_default();
             SendMessageA(
-                ime_wnd,
+                ime,
                 WM_IME_CONTROL,
                 WPARAM(IMC_SETOPENSTATUS.try_into()?),
-                LPARAM(arg),
+                LPARAM(mode),
             );
         }
     }
