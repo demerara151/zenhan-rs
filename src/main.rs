@@ -1,7 +1,7 @@
 use windows::core::Result;
 use windows::Win32::Foundation::{LPARAM, WPARAM};
 use windows::Win32::UI::Input::Ime::{
-    ImmGetContext, ImmGetDefaultIMEWnd, ImmReleaseContext, IMC_SETOPENSTATUS, IMN_OPENSTATUSWINDOW,
+    ImmGetDefaultIMEWnd, IMC_SETOPENSTATUS, IMN_OPENSTATUSWINDOW,
 };
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageA, WM_IME_CONTROL};
 
@@ -9,7 +9,6 @@ fn main() -> Result<()> {
     unsafe {
         let hwnd = GetForegroundWindow();
         let ime_wnd = ImmGetDefaultIMEWnd(hwnd);
-        let himc = ImmGetContext(ime_wnd);
 
         let args: Vec<String> = std::env::args().collect();
         if args.len() < 2 {
@@ -28,8 +27,6 @@ fn main() -> Result<()> {
                 LPARAM(arg),
             );
         }
-
-        ImmReleaseContext(ime_wnd, himc);
     }
     Ok(())
 }
