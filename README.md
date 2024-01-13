@@ -42,6 +42,8 @@ There's no new features are added but there's a few changes.
 
 Setting examples for various editors and shells to auto IME off when you leave INSERT mode.
 
+These examples are compatible with the original zenhan. Feel free to replace them with zenhan if you prefer.
+
 ### Neovim
 
 In `nvim/init.lua`:
@@ -133,9 +135,9 @@ $env.config = {
 
 ## NOTES
 
-- This program only works on Windows system. However, might be works on other system but not tested.
+- This program only works on Windows system. However, might be work on other systems.
 - If an invalid option other than 0 or 1 is passed, it will be treated as 0 by default.
-- There's no need to replace original program `zenhan` with my `zenhan-rs` if you don't have any problems.
+- There's no need to replace original `zenhan` with `zenhan-rs` if you don't have any problems.
 
 ## References
 
