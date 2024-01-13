@@ -30,9 +30,17 @@ Switch the mode to Japanese (hiragana).
 zenhan-rs 1
 ```
 
+## Changes
+
+There's no new features are added but there's a few changes.
+
+- Binary: 64bit binary only.
+- Size  : 3-4 times bigger than the original but still stay in tiny.
+- Output: Do not output any results like 0 or 1.
+
 ## Settings
 
-Setting examples for various editors and shells.
+Setting examples for various editors and shells to auto IME off when you leave INSERT mode.
 
 ### Neovim
 
@@ -46,21 +54,32 @@ if vim.fn.executable('zenhan-rs') then
 end
 ```
 
-### VSCode Neovim
+### Visual Studio Code
 
-Same as Neovim.
+Same as [Neovim](###Neovim) if you are using `VSCode Neovim` extension in VSCode.
+
+If you want to use this feature only works in VSCode, then write them in this vscode scope.
+
+```lua
+if g.vscode then
+  -- Auto IME off when you leave INSERT mode
+  if vim.fn.executable('zenhan-rs') then
+    vim.cmd([[autocmd InsertLeave * call system('zenhan-rs 0')]])
+    vim.cmd([[autocmd CmdlineLeave * call system('zenhan-rs 0')]])
+  end
+end
+```
 
 ### Helix
 
 Configure your `helix/config.toml` as follows:
 
 ```toml
-# Auto IME off when you leave INSERT mode.
-
 # Nushell is significantly faster than PowerShell.
 [editor]
 shell = ["nu", "-c"]  # or ["pwsh", "-nop", "-c"] but too slow to switch the mode
 
+# Auto IME off when you leave INSERT mode.
 [keys.insert]
 "esc" = ["normal_mode", ":run-shell-command zenhan-rs 0"]
 ```
@@ -72,7 +91,7 @@ shell = ["nu", "-c"]  # or ["pwsh", "-nop", "-c"] but too slow to switch the mod
 If you are set `$PSReadLineOptions.EditMode` to `Vi`, write the following script in `$PROFILE`.
 
 ```PowerShell
-# Set the Vi mode indicator and turn off the IME.
+# Set the style of Vi mode indicator and turn off the IME.
 function OnViModeChange {
   if ($args[0] -eq 'Command') {
     # Turn off the IME when you leave the INSERT mode.
@@ -90,10 +109,37 @@ Set-PSReadLineOption -ViModeIndicator Script -ViModeChangeHandler $Function:OnVi
 
 > Cursor styling is optional.
 
+### Nushell
+
+> 💡Does not work as intended. Still work in progress.
+
+```nu
+$env.config = {
+    ...
+
+    keybindings: [
+      {
+        name: escape
+        modifier: none
+        keycode: escape
+        mode: vi_insert
+        event: { send: executehostcommand, cmd: "zenhan-rs 0" }
+      }
+    ]
+
+    ...
+  }
+```
+
 ## NOTES
 
-- This program only works on Windows system.
+- This program only works on Windows system. However, might be works on other system but not tested.
 - If an invalid option other than 0 or 1 is passed, it will be treated as 0 by default.
+- There's no need to replace original program `zenhan` with my `zenhan-rs` if you don't have any problems.
+
+## References
+
+- [iuchim/zenhan](https://github.com/iuchim/zenhan): Original program. Thanks for creating useful app.
 
 ## LICENSE
 
