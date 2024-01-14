@@ -20,12 +20,9 @@ fn main() -> Result<()> {
 fn get_input_mode() -> LPARAM {
     let args: Vec<String> = std::env::args().collect();
 
-    // HACK: Consider using more proper way in Rust.
-    if args.len() < 2 {
-        LPARAM(0)
-    } else {
-        let mode = args[1].parse().unwrap_or_default();
-        LPARAM(mode)
+    match args.get(1).map(|arg| arg.parse().unwrap_or_default()) {
+        Some(mode) => LPARAM(mode),
+        None => LPARAM(0),
     }
 }
 
