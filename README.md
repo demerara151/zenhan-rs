@@ -6,11 +6,11 @@ Rust implementation of [zenhan](https://github.com/iuchim/zenhan). Switch the mo
 
 Download the binary from [releases](https://github.com/demerara151/zenhan-rs/releases) page.
 
-Then save it anywhere you want and set the path to the executable.
+Then save it to your desired location and set the path to the executable file.
 
 ## Usage
 
-- Turn IME off
+- Turn off the IME
 
 Switch the mode to Alphanumerical (hankaku-eisu).
 
@@ -22,7 +22,7 @@ zenhan-rs
 zenhan-rs 0
 ```
 
-- Turn IME on
+- Turn on the IME
 
 Switch the mode to Japanese (hiragana).
 
@@ -30,19 +30,20 @@ Switch the mode to Japanese (hiragana).
 zenhan-rs 1
 ```
 
+> Unsigned integer larger than 1 is passed, it will be treated as 1. For example, `zenhan-rs 42` will turn on the IME.
+
 ## Changes
 
-There's no new features are added but there's a few changes.
-
-- Binary: 64bit binary only.
-- Size  : 3-4 times bigger than the original but still stay in tiny.
-- Output: Do not output any results like 0 or 1.
+- Binary: Only 64-bit binary is supported.
+- Size: The size is approximately 3-4 times larger than the original, but it still remains small.
+- Output: No results will be output, such as 0 or 1.
+- Safety: Rust ensures memory safety, but does not take responsibility for any issues related to 'winapi'.
 
 ## Settings
 
 Setting examples for various editors and shells to auto IME off when you leave INSERT mode.
 
-These examples are compatible with the original zenhan. Feel free to replace them with zenhan if you prefer.
+These examples are compatible with the original zenhan, and you can replace them with zenhan if you want.
 
 ### Neovim
 
@@ -135,9 +136,9 @@ $env.config = {
 
 ## NOTES
 
-- This program only works on Windows system. However, might be work on other systems.
-- If an invalid option other than 0 or 1 is passed, it will be treated as 0 by default.
-- There's no need to replace original `zenhan` with `zenhan-rs` if you don't have any problems.
+- This program only works on Windows system but it might work on other systems as well.
+- If you pass an invalid option that can't be parsed as an integer, it will default to 0.
+- There's no need to replace original `zenhan` with `zenhan-rs` if you don't have any issues.
 
 ## References
 
