@@ -1,7 +1,7 @@
 use windows::core::Result;
 use windows::Win32::Foundation::{LPARAM, WPARAM};
 use windows::Win32::UI::Input::Ime::{ImmGetDefaultIMEWnd, IMC_SETOPENSTATUS};
-use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageA, WM_IME_CONTROL};
+use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageW, WM_IME_CONTROL};
 
 fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -12,7 +12,7 @@ fn main() -> Result<()> {
         let hwnd = GetForegroundWindow();
         let ime = ImmGetDefaultIMEWnd(hwnd);
 
-        SendMessageA(ime, WM_IME_CONTROL, set_open_status, mode);
+        SendMessageW(ime, WM_IME_CONTROL, set_open_status, mode);
     }
     Ok(())
 }
