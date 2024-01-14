@@ -1,33 +1,55 @@
 use windows::core::Result;
 use windows::Win32::Foundation::{LPARAM, WPARAM};
-use windows::Win32::UI::Input::Ime::{
-    ImmGetDefaultIMEWnd, IMC_SETOPENSTATUS, IMN_OPENSTATUSWINDOW,
-};
+use windows::Win32::UI::Input::Ime::{ImmGetDefaultIMEWnd, IMC_SETOPENSTATUS};
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageA, WM_IME_CONTROL};
 
 fn main() -> Result<()> {
+    let args: Vec<String> = std::env::args().collect();
+    let mode = get_input_mode(args);
+    let set_open_status = WPARAM(IMC_SETOPENSTATUS.try_into()?);
+
     unsafe {
         let hwnd = GetForegroundWindow();
         let ime = ImmGetDefaultIMEWnd(hwnd);
 
-        let args: Vec<String> = std::env::args().collect();
-        if args.len() < 2 {
-            SendMessageA(
-                ime,
-                WM_IME_CONTROL,
-                WPARAM(IMN_OPENSTATUSWINDOW.try_into()?),
-                LPARAM(0),
-            );
-        } else {
-            let mode = args[1].parse().unwrap_or_default();
-            SendMessageA(
-                ime,
-                WM_IME_CONTROL,
-                WPARAM(IMC_SETOPENSTATUS.try_into()?),
-                LPARAM(mode),
-            );
-        }
+        SendMessageA(ime, WM_IME_CONTROL, set_open_status, mode);
     }
     Ok(())
+}
+
+fn get_input_mode(args: Vec<String>) -> LPARAM {
+    match args.get(1).map(|arg| arg.parse().unwrap_or_default()) {
+        Some(mode) => LPARAM(mode),
+        None => LPARAM(0),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_input_mode_with_argument() {
+        let args = vec!["path/to/executable".to_string(), "1".to_string()];
+
+        let mode = get_input_mode(args);
+        assert_eq!(mode.0, 1);
+    }
+
+    #[test]
+    fn test_get_input_mode_with_invalid_argument() {
+        let args = vec!["path/to/executable".to_string(), "日本語".to_string()];
+
+        let mode = get_input_mode(args);
+        assert_eq!(mode.0, 0);
+    }
+
+    #[test]
+    fn test_get_input_mode_without_argument() {
+        let args = vec!["path/to/executable".to_string()];
+
+        let mode = get_input_mode(args);
+        assert_eq!(mode.0, 0);
+    }
 }
 
