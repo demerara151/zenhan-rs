@@ -2,7 +2,24 @@
 
 Rust implementation of [zenhan](https://github.com/iuchim/zenhan). Switch the mode of IME from terminal.
 
-## Install
+<!--toc:start-->
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Changes](#changes)
+- [Settings](#settings)
+    - [Neovim](#neovim)
+    - [Visual Studio Code](#visual-studio-code)
+    - [Helix](#helix)
+    - [PowerShell](#powershell)
+    - [Nushell](#nushell)
+- [Notes](#notes)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+  
+  <!--toc:end-->
+
+## Installation
 
 Download the binary from [releases](https://github.com/demerara151/zenhan-rs/releases) page.
 
@@ -134,16 +151,16 @@ $env.config = {
   }
 ```
 
-## NOTES
+## Notes
 
 - This program only works on Windows system but it might work on other systems as well.
 - If you pass an invalid option that can't be parsed as an integer, it will default to 0.
 - There's no need to replace original `zenhan` with `zenhan-rs` if you don't have any issues.
 
-## References
+## Acknowledgements
 
 - [iuchim/zenhan](https://github.com/iuchim/zenhan): Original program. Thanks for creating useful app.
 
-## LICENSE
+## License
 
 This project is licensed under the terms of the [MIT license](./LICENSE).
